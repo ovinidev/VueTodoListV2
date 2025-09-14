@@ -40,19 +40,16 @@ export const useTasks = () => {
   const handleUpdateTask = (id: number, newTitle: string) => {
     const task = taskList.value.find((task) => task.id === id)
     if (task) {
-      console.log('task', task)
-
       task.name = newTitle
-      task.isEditMode = false
-
+      task.isEditMode = true
       save(taskList.value)
     }
   }
 
-  const handleStartEdit = (id: number) => {
+  const handleFinishEdit = (id: number) => {
     const task = taskList.value.find((task) => task.id === id)
     if (task) {
-      task.isEditMode = true
+      task.isEditMode = false
     }
   }
 
@@ -67,7 +64,7 @@ export const useTasks = () => {
     handleAddTask,
     handleCompleteTask,
     handleUpdateTask,
-    handleStartEdit,
+    handleFinishEdit,
     handleDeleteTask
   }
 }

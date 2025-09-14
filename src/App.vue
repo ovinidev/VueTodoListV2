@@ -13,7 +13,7 @@
     handleAddTask,
     handleCompleteTask,
     handleUpdateTask,
-    handleStartEdit,
+    handleFinishEdit,
     handleDeleteTask
   } = useTasks()
 
@@ -63,7 +63,7 @@
           @complete-task="handleCompleteTask"
           @update-task="handleUpdateTask"
           @update-name="handleUpdateTask"
-          @start-edit="handleStartEdit"
+          @finish-edit="handleFinishEdit"
           @delete-task="handleDeleteTask"
         />
       </template>

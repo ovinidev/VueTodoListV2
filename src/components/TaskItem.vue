@@ -15,7 +15,7 @@
   interface Emits {
     'complete-task': [id: number]
     'update-name': [id: number, newName: string]
-    'start-edit': [id: number]
+    'finish-edit': [id: number]
     'delete-task': [id: number]
   }
 
@@ -41,24 +41,27 @@
       ]"
       :value="task.name"
       @input="
-        ($emit('start-edit', task.id),
-        $emit(
+        $emit('update-name', task.id, ($event.target as HTMLInputElement).value)
+      "
+      @keyup.enter="
+        ($emit(
           'update-name',
           task.id,
           ($event.target as HTMLInputElement).value
-        ))
-      "
-      @keyup.enter="
-        $emit('update-name', task.id, ($event.target as HTMLInputElement).value)
+        ),
+        $emit('finish-edit', task.id))
       "
     />
     <Check
       v-if="task.isEditMode"
-      @click="$emit('update-name', task.id, task.name)"
-      class="ml-2 h-5 w-5 cursor-pointer text-green-500 hover:text-green-400"
+      @click="
+        ($emit('update-name', task.id, task.name),
+        $emit('finish-edit', task.id))
+      "
+      class="ml-2 h-8 w-8 cursor-pointer text-green-500 hover:text-green-400"
     />
     <Trash
-      class="ml-auto h-5 w-5 cursor-pointer text-red-500 hover:text-red-400"
+      class="ml-auto h-8 w-8 cursor-pointer text-red-500 hover:text-red-400"
       @click="$emit('delete-task', task.id)"
     />
   </div>
