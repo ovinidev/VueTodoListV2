@@ -19,7 +19,7 @@
     'delete-task': [id: number]
   }
 
-  defineProps<Props>()
+  const { task } = defineProps<Props>()
   defineEmits<Emits>()
 </script>
 

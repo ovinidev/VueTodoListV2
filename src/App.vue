@@ -76,9 +76,12 @@
       class="mt-4 flex w-full flex-col gap-3"
       @end="saveTasks(taskList)"
       :handle="'.drag-handle'"
+      :animation="200"
+      name="task"
     >
       <template #item="{ element: task }">
         <TaskItem
+          :key="task.id"
           :task="task"
           @complete-task="handleCompleteTask"
           @update-task="handleUpdateTask"
@@ -101,6 +104,7 @@
         class="mt-4 flex w-full flex-col gap-3"
         @end="saveTasksDone(tasksDone)"
         :handle="'.drag-handle'"
+        :animation="200"
       >
         <template #item="{ element: task }">
           <TaskItem
@@ -116,3 +120,26 @@
     </div>
   </div>
 </template>
+
+<style>
+  .task-enter-active,
+  .task-leave-active {
+    transition: all 0.3s ease;
+  }
+  .task-enter-from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  .task-enter-to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .task-leave-from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .task-leave-to {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+</style>
