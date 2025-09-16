@@ -59,6 +59,10 @@
       </button>
     </div>
 
+    <span v-if="taskList.length === 0" class="mt-6 text-gray-500"
+      >Hello! Create your first task</span
+    >
+
     <draggable
       v-model="taskList"
       item-key="id"
