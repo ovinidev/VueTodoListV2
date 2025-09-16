@@ -5,7 +5,7 @@
   import { onMounted } from 'vue'
   import { TASKS_DONE_KEY, TASKS_KEY } from './constants/tasks'
   import { useLocalStorage } from './composables/useLocalStorage'
-  import { Check, Share } from 'lucide-vue-next'
+  import { Check, Share, Plus } from 'lucide-vue-next'
 
   const {
     taskList,
@@ -43,7 +43,7 @@
     :style="{ minHeight: '100vh' }"
   >
     <div class="flex w-full items-center justify-center gap-4">
-      <h1 class="my-2 text-3xl font-bold">To do list</h1>
+      <h1 class="my-2 text-3xl font-bold">Task admin</h1>
       <Share
         @click="handleShareTaskList"
         class="h-6 w-6 cursor-pointer text-purple-300"
@@ -62,7 +62,7 @@
         class="ml-2 flex h-10 items-center rounded bg-purple-600 p-2 text-white hover:bg-purple-700"
         @click="handleAddTask"
       >
-        Add
+        <Plus />
       </button>
     </div>
 

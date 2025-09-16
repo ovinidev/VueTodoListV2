@@ -113,7 +113,6 @@ export const useTasks = () => {
 
   const encodeTaskListJsonForUrl = (): string => {
     const jsonString = JSON.stringify(taskList.value)
-    console.log(jsonString)
 
     return encodeURIComponent(jsonString)
   }
@@ -127,7 +126,6 @@ export const useTasks = () => {
         url
       })
       .catch(() => {})
-    console.log(url)
   }
 
   return {
