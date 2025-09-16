@@ -20,12 +20,12 @@ export default defineConfig({
         theme_color: '#42b883',
         icons: [
           {
-            src: '/vue.svg',
+            src: '/vue.png',
             sizes: '192x192',
             type: 'image/png'
           },
           {
-            src: '/vue.svg',
+            src: '/vue.png',
             sizes: '512x512',
             type: 'image/png'
           }
