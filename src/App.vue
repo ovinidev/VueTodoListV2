@@ -5,7 +5,7 @@
   import { onMounted } from 'vue'
   import { TASKS_DONE_KEY, TASKS_KEY } from './constants/tasks'
   import { useLocalStorage } from './composables/useLocalStorage'
-  import { Check, GripVertical } from 'lucide-vue-next'
+  import { Check } from 'lucide-vue-next'
 
   const {
     taskList,
