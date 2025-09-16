@@ -39,7 +39,7 @@
 
 <template>
   <div
-    class="flex flex-col items-center justify-start border-amber-500 bg-gray-900 p-6 px-10 md:px-18"
+    class="flex flex-col items-center justify-start border-amber-500 bg-gray-900 p-6 md:px-18"
     :style="{ minHeight: '100vh' }"
   >
     <div class="flex w-full items-center justify-center gap-4">
