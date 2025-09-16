@@ -26,7 +26,7 @@
 <template>
   <div class="flex w-full items-center rounded-sm bg-gray-800 p-2 px-1">
     <GripVertical
-      class="mr-2 w-8 cursor-grab text-gray-500 transition-colors duration-150 hover:text-gray-300 active:cursor-grabbing"
+      class="drag-handle mr-2 w-8 cursor-grab text-gray-500 transition-colors duration-150 hover:text-gray-300 active:cursor-grabbing"
       style="touch-action: none"
     />
     <input
