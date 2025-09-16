@@ -38,7 +38,7 @@
 
 <template>
   <div
-    class="flex flex-col items-center justify-start border-amber-500 bg-gray-900 p-6"
+    class="flex flex-col items-center justify-start border-amber-500 bg-gray-900 p-6 md:px-18"
     :style="{ minHeight: '100vh' }"
   >
     <h1 class="my-2 text-3xl font-bold">To do list</h1>
