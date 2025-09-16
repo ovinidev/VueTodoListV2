@@ -1,4 +1,4 @@
-import { TASKS_KEY } from '@/constants/tasks'
+import { TASKS_DONE_KEY, TASKS_KEY } from '@/constants/tasks'
 import { ref } from 'vue'
 import { useLocalStorage } from './useLocalStorage'
 
@@ -11,9 +11,11 @@ interface Task {
 
 export const useTasks = () => {
   const taskList = ref<Task[]>([])
+  const tasksDone = ref<Task[]>([])
   const newTask = ref<string>('')
 
-  const { save } = useLocalStorage(TASKS_KEY)
+  const { save: saveTaskListToStorage } = useLocalStorage(TASKS_KEY)
+  const { save: saveTasksDoneToStorage } = useLocalStorage(TASKS_DONE_KEY)
 
   const handleAddTask = () => {
     if (newTask.value.trim() !== '') {
@@ -24,17 +26,40 @@ export const useTasks = () => {
         isEditMode: false
       })
 
-      save(taskList.value)
+      saveTaskListToStorage(taskList.value)
       newTask.value = ''
     }
   }
 
+  const removeTaskFromList = (id: number) => {
+    taskList.value = taskList.value.filter((task) => task.id !== id)
+    saveTaskListToStorage(taskList.value)
+  }
+
+  const removeTaskFromDone = (id: number) => {
+    tasksDone.value = tasksDone.value.filter((task) => task.id !== id)
+    saveTasksDoneToStorage(tasksDone.value)
+  }
+
   const handleCompleteTask = (id: number) => {
-    const task = taskList.value.find((task) => task.id === id)
-    if (task) {
-      task.isCompleted = !task.isCompleted
-      save(taskList.value)
+    const task =
+      taskList.value.find((task) => task.id === id) ||
+      tasksDone.value.find((task) => task.id === id)
+
+    if (!task) return
+
+    task.isCompleted = !task.isCompleted
+
+    if (task.isCompleted === true) {
+      tasksDone.value.push(task)
+      removeTaskFromList(id)
+      saveTasksDoneToStorage(tasksDone.value)
+      return
     }
+
+    removeTaskFromDone(id)
+    taskList.value.push(task)
+    saveTaskListToStorage(taskList.value)
   }
 
   const handleUpdateTask = (id: number, newTitle: string) => {
@@ -42,7 +67,7 @@ export const useTasks = () => {
     if (task) {
       task.name = newTitle
       task.isEditMode = true
-      save(taskList.value)
+      saveTaskListToStorage(taskList.value)
     }
   }
 
@@ -54,8 +79,13 @@ export const useTasks = () => {
   }
 
   const handleDeleteTask = (id: number) => {
-    taskList.value = taskList.value.filter((task) => task.id !== id)
-    save(taskList.value)
+    removeTaskFromList(id)
+
+    const taskDone = tasksDone.value.find((task) => task.id === id)
+
+    if (taskDone) {
+      removeTaskFromDone(id)
+    }
   }
 
   return {
@@ -65,6 +95,7 @@ export const useTasks = () => {
     handleCompleteTask,
     handleUpdateTask,
     handleFinishEdit,
-    handleDeleteTask
+    handleDeleteTask,
+    tasksDone
   }
 }

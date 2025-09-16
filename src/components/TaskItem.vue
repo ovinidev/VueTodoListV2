@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Trash, Check } from 'lucide-vue-next'
+  import { Trash, Check, GripVertical } from 'lucide-vue-next'
 
   interface Task {
     id: number
@@ -24,9 +24,11 @@
 </script>
 
 <template>
-  <div
-    class="bg flex w-full items-center space-x-2 rounded-sm bg-gray-800 p-2 px-4"
-  >
+  <div class="flex w-full items-center rounded-sm bg-gray-800 p-2 px-1">
+    <GripVertical
+      class="mr-2 w-8 cursor-grab text-gray-500 transition-colors duration-150 hover:text-gray-300 active:cursor-grabbing"
+      style="touch-action: none"
+    />
     <input
       class="h-6 w-6 rounded accent-purple-600"
       type="checkbox"
@@ -61,7 +63,7 @@
       class="ml-2 h-8 w-8 cursor-pointer text-green-500 hover:text-green-400"
     />
     <Trash
-      class="ml-auto h-8 w-8 cursor-pointer text-red-500 hover:text-red-400"
+      class="mr-2 ml-auto h-8 w-8 cursor-pointer text-red-500 hover:text-red-400"
       @click="$emit('delete-task', task.id)"
     />
   </div>

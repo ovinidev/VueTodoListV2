@@ -1,11 +1,11 @@
 <script setup lang="ts">
-  import '@styles/global.css'
   import draggable from 'vuedraggable'
   import TaskItem from '@components/TaskItem.vue'
   import { useTasks } from '@composables/useTasks'
   import { onMounted } from 'vue'
-  import { TASKS_KEY } from './constants/tasks'
+  import { TASKS_DONE_KEY, TASKS_KEY } from './constants/tasks'
   import { useLocalStorage } from './composables/useLocalStorage'
+  import { Check, GripVertical } from 'lucide-vue-next'
 
   const {
     taskList,
@@ -14,16 +14,24 @@
     handleCompleteTask,
     handleUpdateTask,
     handleFinishEdit,
-    handleDeleteTask
+    handleDeleteTask,
+    tasksDone
   } = useTasks()
 
-  const { getAll, save } = useLocalStorage(TASKS_KEY)
+  const { getAll: getAllTasks, save: saveTasks } = useLocalStorage(TASKS_KEY)
+  const { getAll: getAllTasksDone, save: saveTasksDone } =
+    useLocalStorage(TASKS_DONE_KEY)
 
   onMounted(() => {
-    const savedTasks = getAll()
+    const savedTasks = getAllTasks()
+    const savedTasksDone = getAllTasksDone()
 
     if (savedTasks) {
       taskList.value = savedTasks
+    }
+
+    if (savedTasksDone) {
+      tasksDone.value = savedTasksDone
     }
   })
 </script>
@@ -55,7 +63,7 @@
       v-model="taskList"
       item-key="id"
       class="mt-4 flex w-full flex-col gap-3"
-      @end="save(taskList)"
+      @end="saveTasks(taskList)"
     >
       <template #item="{ element: task }">
         <TaskItem
@@ -68,5 +76,30 @@
         />
       </template>
     </draggable>
+
+    <div class="w-full" v-if="tasksDone.length">
+      <div class="mt-6 flex w-full items-center space-x-2">
+        <span class="text-xl font-bold text-gray-100">Done </span>
+        <Check class="text-green-300" />
+      </div>
+
+      <draggable
+        v-model="tasksDone"
+        item-key="id"
+        class="mt-4 flex w-full flex-col gap-3"
+        @end="saveTasksDone(tasksDone)"
+      >
+        <template #item="{ element: task }">
+          <TaskItem
+            :task="task"
+            @complete-task="handleCompleteTask"
+            @update-task="handleUpdateTask"
+            @update-name="handleUpdateTask"
+            @finish-edit="handleFinishEdit"
+            @delete-task="handleDeleteTask"
+          />
+        </template>
+      </draggable>
+    </div>
   </div>
 </template>
