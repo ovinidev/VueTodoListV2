@@ -54,11 +54,17 @@ export const useTasks = () => {
     task.isCompleted = !task.isCompleted
 
     if (task.isCompleted === true) {
+      const taskAlreadyExists = tasksDone.value.find((t) => t.id === id)
+      if (taskAlreadyExists) return
+
       tasksDone.value.push(task)
       removeTaskFromList(id)
       saveTasksDoneToStorage(tasksDone.value)
       return
     }
+
+    const taskAlreadyExists = taskList.value.find((t) => t.id === id)
+    if (taskAlreadyExists) return
 
     removeTaskFromDone(id)
     taskList.value.push(task)
