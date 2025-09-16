@@ -1,6 +1,7 @@
 import { TASKS_DONE_KEY, TASKS_KEY } from '@/constants/tasks'
-import { ref } from 'vue'
+import { ref, watchEffect } from 'vue'
 import { useLocalStorage } from './useLocalStorage'
+import { useRoute } from 'vue-router'
 
 interface Task {
   id: number
@@ -13,6 +14,8 @@ export const useTasks = () => {
   const taskList = ref<Task[]>([])
   const tasksDone = ref<Task[]>([])
   const newTask = ref<string>('')
+
+  console.log(taskList)
 
   const { save: saveTaskListToStorage } = useLocalStorage(TASKS_KEY)
   const { save: saveTasksDoneToStorage } = useLocalStorage(TASKS_DONE_KEY)
@@ -87,6 +90,39 @@ export const useTasks = () => {
       removeTaskFromDone(id)
     }
   }
+  const route = useRoute()
+
+  watchEffect(() => {
+    const rawData = route.query.data as string | undefined
+    if (rawData) {
+      try {
+        const parsed = JSON.parse(rawData)
+        saveTaskListToStorage(parsed)
+        taskList.value = parsed
+      } catch (e) {
+        console.error('Invalid JSON in query param (onMounted):', e)
+      }
+    }
+  })
+
+  const encodeTaskListJsonForUrl = (): string => {
+    const jsonString = JSON.stringify(taskList.value)
+    console.log(jsonString)
+
+    return encodeURIComponent(jsonString)
+  }
+
+  function handleShareTaskList() {
+    const url = `${window.location.origin}?data=${encodeTaskListJsonForUrl()}`
+    navigator
+      .share({
+        title: 'My Todo List',
+        text: 'Check out my todo list!',
+        url
+      })
+      .catch(() => {})
+    console.log(url)
+  }
 
   return {
     taskList,
@@ -96,6 +132,7 @@ export const useTasks = () => {
     handleUpdateTask,
     handleFinishEdit,
     handleDeleteTask,
-    tasksDone
+    tasksDone,
+    handleShareTaskList
   }
 }

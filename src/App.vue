@@ -5,7 +5,7 @@
   import { onMounted } from 'vue'
   import { TASKS_DONE_KEY, TASKS_KEY } from './constants/tasks'
   import { useLocalStorage } from './composables/useLocalStorage'
-  import { Check } from 'lucide-vue-next'
+  import { Check, Share } from 'lucide-vue-next'
 
   const {
     taskList,
@@ -15,7 +15,8 @@
     handleUpdateTask,
     handleFinishEdit,
     handleDeleteTask,
-    tasksDone
+    tasksDone,
+    handleShareTaskList
   } = useTasks()
 
   const { getAll: getAllTasks, save: saveTasks } = useLocalStorage(TASKS_KEY)
@@ -41,7 +42,13 @@
     class="flex flex-col items-center justify-start border-amber-500 bg-gray-900 p-6 md:px-18"
     :style="{ minHeight: '100vh' }"
   >
-    <h1 class="my-2 text-3xl font-bold">To do list</h1>
+    <div class="flex w-full items-center justify-center gap-4">
+      <h1 class="my-2 text-3xl font-bold">To do list</h1>
+      <Share
+        @click="handleShareTaskList"
+        class="h-6 w-6 cursor-pointer text-purple-300"
+      />
+    </div>
 
     <div class="mt-4 flex w-full items-center justify-center">
       <input
