@@ -86,6 +86,7 @@ export const useTasks = () => {
     const task = taskList.value.find((task) => task.id === id)
     if (task) {
       task.isEditMode = false
+      saveTaskListToStorage(taskList.value)
     }
   }
 
