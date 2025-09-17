@@ -15,8 +15,6 @@ export const useTasks = () => {
   const tasksDone = ref<Task[]>([])
   const newTask = ref<string>('')
 
-  console.log(taskList)
-
   const { save: saveTaskListToStorage } = useLocalStorage(TASKS_KEY)
   const { save: saveTasksDoneToStorage } = useLocalStorage(TASKS_DONE_KEY)
 

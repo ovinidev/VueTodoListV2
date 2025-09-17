@@ -50,6 +50,33 @@
       />
     </div>
 
+    <div class="mt-4 w-full">
+      <div class="mb-1 flex items-center justify-between">
+        <span class="ml-auto text-sm font-medium text-gray-300">
+          {{
+            taskList.length + tasksDone.length === 0
+              ? '0%'
+              : Math.round(
+                  (tasksDone.length / (taskList.length + tasksDone.length)) *
+                    100
+                ) + '%'
+          }}
+        </span>
+      </div>
+      <div class="h-2 w-full rounded-full bg-gray-700">
+        <div
+          class="h-2 rounded-full bg-purple-600 transition-all duration-300"
+          :style="{
+            width:
+              (taskList.length + tasksDone.length === 0
+                ? 0
+                : (tasksDone.length / (taskList.length + tasksDone.length)) *
+                  100) + '%'
+          }"
+        ></div>
+      </div>
+    </div>
+
     <div class="mt-4 flex w-full items-center justify-center">
       <input
         type="text"
