@@ -1,5 +1,9 @@
 import { TASKS_DONE_KEY, TASKS_KEY } from '@/constants/tasks'
 import { ref, watchEffect } from 'vue'
+import {
+  compressToEncodedURIComponent,
+  decompressFromEncodedURIComponent
+} from 'lz-string'
 import { useLocalStorage } from './useLocalStorage'
 import { useRoute } from 'vue-router'
 
@@ -97,22 +101,34 @@ export const useTasks = () => {
   const route = useRoute()
 
   watchEffect(() => {
-    const rawData = route.query.data as string | undefined
-    if (rawData) {
+    const urlData = route.query.data as string | undefined
+    if (urlData) {
       try {
-        const parsed = JSON.parse(rawData)
+        const decompressedUri = decompressFromEncodedURIComponent(urlData)
+        if (!decompressedUri) return
+        const decompressedData = JSON.parse(decompressedUri)
+
+        const parsed = decompressedData.map((task: any) => ({
+          id: task.i,
+          name: task.n,
+          isCompleted: task.c,
+          isEditMode: false
+        }))
         saveTaskListToStorage(parsed)
         taskList.value = parsed
       } catch (e) {
-        console.error('Invalid JSON in query param (onMounted):', e)
+        console.error('Invalid compressed data in query param:', e)
       }
     }
   })
 
   const encodeTaskListJsonForUrl = (): string => {
-    const jsonString = JSON.stringify(taskList.value)
-
-    return encodeURIComponent(jsonString)
+    const minimalTasks = taskList.value.map(({ id, name, isCompleted }) => ({
+      i: id,
+      n: name,
+      c: isCompleted
+    }))
+    return compressToEncodedURIComponent(JSON.stringify(minimalTasks))
   }
 
   function handleShareTaskList() {
