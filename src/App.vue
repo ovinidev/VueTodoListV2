@@ -50,7 +50,7 @@
       />
     </div>
 
-    <div class="mt-4 w-full">
+    <div v-if="taskList.length > 0 || tasksDone.length > 0" class="mt-4 w-full">
       <div class="mb-1 flex items-center justify-between">
         <span class="ml-auto text-sm font-medium text-gray-300">
           {{
