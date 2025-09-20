@@ -37,8 +37,12 @@ export default defineConfig({
     alias: {
       '@': path.resolve('./src'),
       '@styles': path.resolve('./src/styles'),
+      '@components': path.resolve('./src/components'),
       '@composables': path.resolve('./src/composables'),
-      '@components': path.resolve('./src/components')
+      '@constants': path.resolve('./src/constants'),
+      '@pages': path.resolve('./src/pages'),
+      '@router': path.resolve('./src/router'),
+      '@store': path.resolve('./src/store')
     }
   }
 })

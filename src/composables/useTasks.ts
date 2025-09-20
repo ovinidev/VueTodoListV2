@@ -133,7 +133,7 @@ export const useTasks = () => {
   }
 
   function handleShareTaskList() {
-    const url = `${window.location.origin}?data=${encodeTaskListJsonForUrl()}`
+    const url = `${window.location.origin}/todo?data=${encodeTaskListJsonForUrl()}`
     navigator
       .share({
         title: 'My Todo List',

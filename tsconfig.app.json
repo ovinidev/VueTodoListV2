@@ -6,8 +6,12 @@
     "paths": {
       "@/*": ["./src/*"],
       "@styles/*": ["./src/styles/*"],
+      "@components/*": ["./src/components/*"],
       "@composables/*": ["./src/composables/*"],
-      "@components/*": ["./src/components/*"]
+      "@constants/*": ["./src/constants/*"],
+      "@pages/*": ["./src/pages/*"],
+      "@router/*": ["./src/router/*"],
+      "@store/*": ["./src/store/*"]
     },
 
     /* Linting */
